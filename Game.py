@@ -1,0 +1,62 @@
+from tile_content import tile_content
+from location import location
+from location_helpers import str_to_coords
+from location_helpers import coords_to_str
+from location_helpers import distance_between
+from Gadgets import Gadgets
+import random
+from Cover import Cover
+from Mech import Mech
+from PIL import Image
+from Team import Team
+from World import World
+import curses
+from Gadget import Gadget
+from Window import Window
+from Player import Player
+from Hot_Seat_Player import Hot_Seat_Player
+class Game():
+    default_prefs = [curses.COLOR_BLACK, curses.COLOR_GREEN, curses.COLOR_RED, curses.COLOR_CYAN, 9, 10, 11]
+    def __init__(self, mapname=None):
+        if mapname == None:
+            mapname = "map1long.png"
+        self.players = []
+        self.world = World(mapname)
+        self.set_color_prefs(Game.default_prefs)
+    def set_color_prefs(self, prefs):
+        #prefs is an array
+# background, move radius color, attack radius color, cover background color, MOVE_RADIUS_COLOR_PAIR_NUM, ATTACK_RANGE_COLOR_PAIR_NUM, COVER_COLOR_PAIR_NUM
+#      0    ,       1          ,           2        ,           3           ,              4            ,               5            ,         6
+        curses.init_pair(prefs[6], prefs[0], prefs[3])
+        curses.init_pair(prefs[4], prefs[1], prefs[0])
+        curses.init_pair(prefs[5], prefs[2], prefs[0])
+        self.world.MOVE_RADIUS_COLOR_PAIR_NUM = prefs[4]
+        self.world.ATTACK_RANGE_COLOR_PAIR_NUM = prefs[5]
+        self.world.COVER_COLOR_PAIR_NUM = prefs[6]
+    def start(self):
+        self.world.curses_display_table()
+        self.world.scr.refresh()
+        # self.world.scr.getch()
+        while not self.world.has_winner():
+            for player in self.players:
+                self.world.curses_display_table()
+                player.team.do(player.get_turn())
+                self.world.scr.getch()
+        return self.world.active_teams()[0].name
+    def add_player(self, p):
+        self.players.append(p)
+    def load_game(self, file_name):
+        current_team_name = None
+        current_team_obj = None
+        with open(file_name, "r") as f:
+            for line in f:
+                if line[0] == "t":
+                    current_team_name = line[2:-1]
+                    # print("creating new team: " + current_team_name)
+                    current_team_obj = Team(self.world, current_team_name)
+                    self.add_player(Hot_Seat_Player(self, current_team_obj))
+                    self.world.add_team(current_team_obj)
+                elif line[0] == "m":
+                    loc = location(line.split("@")[1][:-1])
+                    # print("creating " + current_team + " mech: " + line[2:6] + " at " + location)
+                    current_team_obj.create_mech(line[2:6], loc)

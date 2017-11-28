@@ -1,0 +1,4 @@
+I'm making a turn based tactical strategy game based on the rules of Mobile Frame Zero.
+http://mobileframezero.com/mfz/wp-content/uploads/Mobile%20Frame%20Zero.pdf
+I will be working alone. I plan to create a Dwarf Fortress style interface using unicode symbols.
+I hope to eventually include saves and internet based rather than hot seat multiplayer.

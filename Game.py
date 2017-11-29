@@ -36,12 +36,24 @@ class Game():
     def start(self):
         self.world.curses_display_table()
         self.world.scr.refresh()
-        # self.world.scr.getch()
+        curses.noecho()
         while not self.world.has_winner():
             for player in self.players:
+                self.world.scr.addstr(1, 50, " "*50)
+                self.world.scr.addstr(1, 50, player.team.name)
                 self.world.curses_display_table()
-                player.team.do(player.get_turn())
-                self.world.scr.getch()
+                while not (player.team.has_moved_yet() and player.team.has_attacked_yet() and player.team.has_spot_yet()):
+                    turn = player.get_turn()
+                    if self.world.is_valid_turn(turn):
+                        if turn.verb == "mov":
+                            player.team.moved_yet = True
+                        if turn.verb == "atk":
+                            player.team.attacked_yet = True
+                        if turn.verb == "spt":
+                            player.team.spot_yet = True
+                        player.team.do(turn)
+                        self.world.scr.refresh()
+                    # print(player.team.moved_yet)
         return self.world.active_teams()[0].name
     def add_player(self, p):
         self.players.append(p)

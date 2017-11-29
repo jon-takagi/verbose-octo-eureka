@@ -14,8 +14,8 @@ class Mech(tile_content):
         return self.d6() +  self.d6()
     def __init__(self, world, gadgets, location, team):
         self.team = team
-        self.verbs = team.verbs
         self.gadgets = gadgets
+        self.gadgets.update_count()
         self.location = location
         self.world = world
         self.world.table[location.row][location.col] = self
@@ -27,19 +27,19 @@ class Mech(tile_content):
         self.nearby_cover = []
     def is_prepped(self):
         return self.prepped
-    def calculateMovement(self):
-        return BASE_MOVEMENT + self.scores["mov"]
     def is_active(self):
         return self.active
     def take_damage(self, damage):
         if not self.gadgets.has_active():
             self.active = False
+            return
         if damage > 0:
             if self.gadgets.has_active():
                 dmg = random.randint(0,len(self.gadgets.members)-1)
                 while not self.gadgets.members[dmg].active:
                     dmg = random.randint(0,len(self.gadgets.members)-1)
                 self.gadgets.members[dmg].active = False
+                self.gadgets.update_count()
                 self.take_damage(damage - 1)
             else:
                 self.active = False
@@ -67,15 +67,6 @@ class Mech(tile_content):
     def prep_spt(self):
         for i in range(self.gadgets.count["spt"]):
             self.scores["spt"] += self.d6()
-    def choose_wilds(self):
-        print("this frame has " + str(self.wilds) + " active wild dice")
-        if self.wilds == 2:
-            s = input("Assign wild dice to which two gadgets? (\"atk\",\"def\",\"mov\",\"spt\" or \"nul\")")
-            return s.split(",")
-        else:
-            s = input("Assign wild dice to which gadget? (\"atk\",\"def\",\"mov\",\"spt\" or \"nul\")")
-            return [s,"nul"]
-
     def prep(self):
         if not self.is_prepped():
             self.reset_scores
@@ -92,6 +83,9 @@ class Mech(tile_content):
     def move(self,target):
         if True: #replace with check to see if target is within move range
             self.set_location(target)
+        self.world.curses_display_table()
+    def can_move_to(self, target):
+        return target in self.valid_atk_tiles()
     def set_location(self, target):
         self.world.table[self.location.row][self.location.col] = tile_content()
         self.location = target
@@ -100,14 +94,16 @@ class Mech(tile_content):
 
     def valid_atk_tiles(self):
         return self.world.list_tiles_in_range(self.location, self.atk_range)
-
+    def can_attack(self, target):
+        return target in self.valid_atk_tiles()
     def attack(self, target):
+        # self.world.window.addstr(7,50, self.short_specs() + " is attacking " + target.short_specs())
         if isinstance(target, location):
             target = self.world.at(target)
         if isinstance(target, Mech):
-            self.world.window.addstr(7,50, self.short_specs() + " is attacking " + target.short_specs())
+            self.world.scr.addstr(7,50, self.short_specs() + " is attacking " + target.short_specs())
             hits = max(self.scores["atk"] + target.scores["spt"] - target.scores["def"],0)
-            self.world.window.addstr(8,50, "scored " + str(hits) + " hits")
+            self.world.scr.addstr(8,50, "scored " + str(hits) + " hits")
             dmg_to_take = 0
             for hit in range(hits-1):
                 hit_score = self.d6()
@@ -123,10 +119,9 @@ class Mech(tile_content):
                         target.take_damage(1)
                         dmg_to_take += 1
             # target.take_damage(dmg_to_take)
-            self.world.window.addstr(9,50, "dealt " + str(dmg_to_take) + " dmg")
+            self.world.scr.addstr(9,50, "dealt " + str(dmg_to_take) + " dmg")
+            self.world.curses_display_table()
             # if hit_score >= roll_above_to_damage:
-
-
     def spot(self, target):
         print("spotting mech at " + str(target))
     def __str__(self):
@@ -165,11 +160,12 @@ class Mech(tile_content):
     def short_specs(self):
         return self.team.name + " @ " + str(self.location)
     def get_specs(self):
-        specs = self.team.name + " mech @ " + str(self.location)+ " with "
+        specs = self.team.name + " "
         dice = {"atk":"R", "def":"B", "mov":"G", "spt":"Y"}
         for gadget in self.gadgets.members:
             specs += dice[gadget.kind] if gadget.is_active() else dice[gadget.kind].lower()
-        specs += " is not " if not self.is_in_cover() else " is "
+        specs += " @ "+ str(self.location)
+        specs += " NOT " if not self.is_in_cover() else " "
         specs += "in cover"
         return specs
     def update_nearby_cover(self):

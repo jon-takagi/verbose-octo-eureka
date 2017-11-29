@@ -11,18 +11,14 @@ class Gadgets():
                 gadg = None
                 for key in dice.keys():
                     if dice[key] == slots[i]:
-                        gadg = key
+                        gadg = Gadget(key)
                 self.members.append(gadg)
-        self.count = {"atk":0, "def":0,"mov":0,"spt":0}
-        for member in self.members:
-            if isinstance(member, Gadget):
-                self.count[member.kind] += 1
+        self.update_count()
 
     # def __init__(self, slot1, slot2, slot3, slot4):
     def __eq__(self, other):
         if isinstance(self, Gadgets) and isinstance(other, Gadgets):
             return self.count == other.count
-
     def __str__(self):
         return str(self.members)
     def has_active(self):
@@ -37,3 +33,9 @@ class Gadgets():
         for gadget in self.members:
             strings.append(str(gadget))
         return strings
+    def update_count(self):
+        self.count = {"atk":0, "def":0,"mov":0,"spt":0}
+        for member in self.members:
+            # print(self.members)
+            if member.is_active():
+                self.count[member.kind] += 1

@@ -13,6 +13,9 @@ from location_helpers import coords_to_str
 from location_helpers import distance_between
 # from td import TABLE_HEIGHT
 class World():
+    def none():
+        pass
+
     def __init__(self,mapName, window=None):
         self.table = self.gen_table(mapName)
         self.teams = []
@@ -44,37 +47,32 @@ class World():
             cord = move_to_coords(row)
             row = cord[0]
             col = cord[1]
-        table[row][col] = val
+        self.table[row][col] = val
     def at(self,l):
         if type(l) != location:
             l = location(l)
         return self.table[l.row][l.col]
-    def move_to_coords(self, str):
-        col_txt = str[0]
-        row_txt = str[1:]
-        row_int = int(row_txt)
-        col_int = 0
-        if col_txt.islower():
-            col_int = ord(col_txt) - 97
-        else:
-            col_int = ord(col_txt) + 26 - 65
-        return (row_int, col_int)
+
+    def info(mech, loc):
+        mech.world.curses_display_table()
+        mech.world.scr.addstr(4, 50, " "*50)
+        mech.world.scr.addstr(4, 50, mech.get_specs())
+        #line 4 is used for printing specs
+        for tile in mech.valid_move_tiles():
+            mech.world.scr.addstr(tile.row, tile.col, str(mech.world.table[tile.row][tile.col]), curses.color_pair(mech.world.MOVE_RADIUS_COLOR_PAIR_NUM))
     def list_tiles_in_range(self, start, radius):
         frontier = Queue()
         frontier.put(start)
         visited = {}
         visited[start] = True
-        # current = frontier.get()
-        # print(frontier.empty())
-        i = 0
         while not frontier.empty() :
             current = frontier.get()
-            # print(current.row, current.col)
             if distance_between(start, current) <= radius:
-                for n in self.walkable_neighbors(current):
+                for n in current.neighbors():
                     if n not in visited:
                         frontier.put(n)
                         visited[n] = True
+        visited.pop(start)
         return visited
     def list_walkable_tiles_in_range(self, start, radius):
         frontier = Queue()
@@ -91,6 +89,8 @@ class World():
                         visited[next] = True
                         steps_taken += 1
                 steps_taken -= 1
+
+        visited.pop(start)
         return visited
     def walking_distance_between(self,t1,t2):
         frontier = Queue()
@@ -184,3 +184,28 @@ class World():
             if not team.has_lost():
                 active_teams.append(team)
         return active_teams
+    def get_all_active_mechs(self):
+        active_mechs = []
+        for team in self.teams:
+            for mech in team.mechs:
+                if mech.is_active():
+                    active_mechs.append(mech)
+        return active_mechs
+    def is_valid_turn(self, turn):
+        # print(".")
+        if turn is None:
+            return False
+        mech = self.at(turn.get_subj_loc())
+        if not isinstance(mech, Mech):
+            self.scr.addstr(3, 50, " "*50)
+            self.scr.addstr(3, 50, "invalid command")
+            return False
+        if turn.verb == "inf":
+            # print(">")
+            return True
+        if turn.verb == "mov":
+            return mech.can_move_to(turn.get_target_loc())
+        if turn.verb == "atk":
+            return mech.can_attack(turn.get_target_loc())
+
+    verbs = {"mov":Mech.move, "atk":Mech.attack, "spt":Mech.spot, "none":none, "inf":info}

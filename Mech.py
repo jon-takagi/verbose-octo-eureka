@@ -95,7 +95,8 @@ class Mech(tile_content):
     def valid_atk_tiles(self):
         return self.world.list_tiles_in_range(self.location, self.atk_range)
     def can_attack(self, target):
-        return target in self.valid_atk_tiles()
+        # return target in self.valid_atk_tiles()
+        return True
     def attack(self, target):
         # self.world.window.addstr(6,50, self.short_specs() + " is attacking " + target.short_specs())
         if isinstance(target, location):

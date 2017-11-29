@@ -70,14 +70,10 @@ class Game():
                             player.team.spot_yet = True
                         player.team.do(turn)
                         self.world.scr.refresh()
-                    else:
-                        self.world.scr.addstr(3, 50, " "*50)
-                        self.world.scr.addstr(3, 50, "command forbidden")
 
-        self.world.scr.addstr(25, 50, "game over")
-        self.world.scr.getch()
     def add_player(self, p):
         self.players.append(p)
+        self.world.add_team(p.team)
     def load_game(self, file_name):
         current_team_name = None
         current_team_obj = None

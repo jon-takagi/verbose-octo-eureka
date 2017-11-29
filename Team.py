@@ -44,6 +44,8 @@ class Team():
             m.prep()
         self.world.verbs[turn.verb](m, turn.get_target_loc())
     def create_mech(self, equipment_str,loc = location(0,0)):
+        if type(loc) == type("a1"):
+            loc = location(loc)
         mech = Mech(self.world, Gadgets(equipment_str), loc, self)
         self.world.settile(mech, loc.row, loc.col)
         self.add_mech(mech)

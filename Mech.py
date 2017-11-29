@@ -190,7 +190,15 @@ class Mech(tile_content):
     def is_in_cover(self):
         self.update_nearby_cover()
         return len(self.nearby_cover) > 0
-
+    def nearby_enemies(self):
+        enemies = []
+        nearby_tiles = self.world.list_tiles_in_range(self.location, self.atk_range)
+        for tile in nearby_tiles:
+            if isinstance(self.world.at(tile), Mech):
+                m = self.world.at(tile)
+                if m.team != self.team:
+                    enemies.append(self.world.at(tile))
+        return enemies
 
 
 # soldier = Mech(Gadgets.soldier_kit, location(0,0), "barrett's privateers")

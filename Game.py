@@ -63,7 +63,8 @@ class Game():
                             player.team.spot_yet = True
                         player.team.do(turn)
                         self.world.scr.refresh()
-        curses.endwin()
+                print(">?")
+        # curses.endwin()
         # return self.world.active_teams()[0].name
     def add_player(self, p):
         self.players.append(p)

@@ -30,7 +30,7 @@ class Hot_Seat_Player(Player):
         #subject.mov OR atk OR spt (target)
         if str(command).strip()[2:-1] == "q":
             curses.endwin()
-        if str(command).strip()[2:-1] == "end":
+        if str(command).strip()[2:-1] == "pass":
         #curses.getch() returns a bytes object.
         #str(command) returns b'blahblahblah'. str(command)[2:-1] slices b' and ' off
             self.team.moved_yet = True

@@ -37,13 +37,20 @@ class Game():
         self.world.curses_display_table()
         self.world.scr.refresh()
         curses.noecho()
-        while not self.world.has_winner():
+        while True:
             for player in self.players:
                 player.team.moved_yet = False
                 player.team.attacked_yet = False
-                player.team.spot_yet = False
+                player.team.spot_yet = True
             for player in self.players:
                 while not (player.team.has_moved_yet() and player.team.has_attacked_yet() and player.team.has_spot_yet()):
+                    if self.world.has_winner():
+                        self.world.scr.addstr(2, 70, " "*30)
+                        self.world.scr.addstr(2, 70, "Game Over")
+                        self.world.scr.addstr(3, 70, " "*30)
+                        self.world.scr.addstr(3, 70, "Winner is " + str(self.world.get_winner().name))
+                        self.world.scr.refresh()
+                        break
                     self.world.scr.addstr(1, 50, " "*50)
                     ptn_str = player.team.name + " to "
                     if not player.team.has_moved_yet():
@@ -63,9 +70,12 @@ class Game():
                             player.team.spot_yet = True
                         player.team.do(turn)
                         self.world.scr.refresh()
-                print(">?")
-        # curses.endwin()
-        # return self.world.active_teams()[0].name
+                    else:
+                        self.world.scr.addstr(3, 50, " "*50)
+                        self.world.scr.addstr(3, 50, "command forbidden")
+
+        self.world.scr.addstr(25, 50, "game over")
+        self.world.scr.getch()
     def add_player(self, p):
         self.players.append(p)
     def load_game(self, file_name):

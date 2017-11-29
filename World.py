@@ -173,6 +173,7 @@ class World():
                 pass
             else:
                 self.scr.addstr(r,c,str(r))
+
     def add_team(self, team):
         team.set_num(len(self.teams)+1)
         # self.window.move(0, 0)
@@ -181,6 +182,8 @@ class World():
         self.teams.append(team)
     def has_winner(self):
         return len(self.get_active_teams()) == 1
+    def get_winner(self):
+        return self.get_active_teams()[0]
     def get_active_teams(self):
         active_teams = []
         for team in self.teams:
@@ -204,21 +207,27 @@ class World():
         # print(".")
         if turn is None:
             return False
+        if turn.verb == "pass":
+            return True
         mech = self.at(turn.get_subj_loc())
         if not isinstance(mech, Mech):
             self.scr.addstr(3, 50, " "*50)
             self.scr.addstr(3, 50, "invalid command")
             return False
-        if turn.owner == mech.team and mech.is_active():
-                if turn.verb == "inf":
-                    return True
-                if turn.verb == "mov":
-                    return mech.can_move_to(turn.get_target_loc())
-                if turn.verb == "atk":
-                    return mech.can_attack(turn.get_target_loc())
-        else:
+        if not turn.owner == mech.team:
             self.scr.addstr(3, 50, " "*50)
-            self.scr.addstr(3, 50, "invalid command")
+            self.scr.addstr(3, 50, "not your mech")
             return False
+        if not mech.is_active():
+            self.scr.addstr(3, 50, " "*50)
+            self.scr.addstr(3, 50, "that mech is destroyed")
+            return False
+        else:
+            if turn.verb == "inf":
+                return True
+            if turn.verb == "mov":
+                return mech.can_move_to(turn.get_target_loc())
+            if turn.verb == "atk":
+                return mech.can_attack(turn.get_target_loc())
 
-    verbs = {"mov":Mech.move, "atk":Mech.attack, "spt":Mech.spot, "none":none, "inf":info}
+    verbs = {"mov":Mech.move, "atk":Mech.attack, "spt":Mech.spot, "none":none, "inf":info, "pass":Team.end_turn}

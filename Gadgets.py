@@ -10,8 +10,10 @@ class Gadgets():
             for i in range(len(slots)):
                 gadg = None
                 for key in dice.keys():
-                    if dice[key] == slots[i]:
+                    if dice[key] == slots[i].upper():
                         gadg = Gadget(key)
+                        if slots[i].lower() == slots[i]:
+                            gadg.active = False
                 self.members.append(gadg)
         self.update_count()
 

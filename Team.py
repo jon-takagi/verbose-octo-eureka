@@ -34,6 +34,11 @@ class Team():
     def has_lost(self):
         return len(self.get_active_mechs()) == 0
     def do(self, turn):
+        if turn.get_target_loc() is None:
+            turn.target = location("n0")
+        if turn.verb == "pass":
+            self.end_turn()
+            return
         m = self.world.at(turn.get_subj_loc())
         if not m.prepped:
             m.prep()
@@ -43,3 +48,7 @@ class Team():
         self.world.settile(mech, loc.row, loc.col)
         self.add_mech(mech)
         return mech
+    def end_turn(self):
+        self.moved_yet = True
+        self.attacked_yet = True
+        self.spot_yet = True

@@ -29,13 +29,10 @@ class Team():
         return active_mechs
     def set_num(self, num):
         self.num = num
-    def __str__(self):
-        return self.get_name() + "contains: " + str(self.mechs)
+    def __repr__(self):
+        return self.get_name() + " " + str(self.mechs)
     def has_lost(self):
-        r = False
-        for mech in self.mechs:
-            r = r or mech.is_active()
-        return not r
+        return len(self.get_active_mechs()) == 0
     def do(self, turn):
         m = self.world.at(turn.get_subj_loc())
         if not m.prepped:

@@ -12,9 +12,10 @@ class Hot_Seat_Player(Player):
     def get_turn(self):
         w = self.game.world
         scr = w.scr
-        mechs = self.team.world.get_all_active_mechs()
+        mechs = self.team.world.get_all_mechs()
         for i in range(len(mechs)):
-            scr.addstr(i + 10, 50, mechs[i].get_specs())
+            scr.addstr(i + 11, 50, " "*50)
+            scr.addstr(i + 11, 50, mechs[i].get_specs())
         curses.echo()
         scr.move(2, 50)
         command = scr.getstr(2, 50, Hot_Seat_Player.MAX_COMMAND_LENGTH)
@@ -24,10 +25,11 @@ class Hot_Seat_Player(Player):
         scr.addstr(3, 50, command)
         #line 3 is the last command issued
         scr.addstr(2, 50, " "*11)
-        targeted_commands = r"[a-zA-V]\d+ (mov|atk|spt) [a-zA-V]\d+"
+        targeted_commands = r"[a-zA-V]\d+ (mov|atk|spt|inf) [a-zA-V]\d+"
         #this pattern matches commands of the form
         #subject.mov OR atk OR spt (target)
-
+        if str(command).strip()[2:-1] == "q":
+            curses.endwin()
         if str(command).strip()[2:-1] == "end":
         #curses.getch() returns a bytes object.
         #str(command) returns b'blahblahblah'. str(command)[2:-1] slices b' and ' off
@@ -36,4 +38,4 @@ class Hot_Seat_Player(Player):
             self.team.spot_yet = True
             return
         if re.search(targeted_commands, str(command)) != None:
-            return Turn(str(command), self)
+            return Turn(str(command), self.team)

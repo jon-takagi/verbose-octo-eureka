@@ -58,6 +58,9 @@ class World():
         mech.world.scr.addstr(4, 50, " "*50)
         mech.world.scr.addstr(4, 50, mech.get_specs())
         #line 4 is used for printing specs
+        mech.world.scr.addstr(5, 50, " "*50)
+        mech.world.scr.addstr(5, 50, mech.get_scores())
+        #line 5 is used for printing scores
         for tile in mech.valid_move_tiles():
             mech.world.scr.addstr(tile.row, tile.col, str(mech.world.table[tile.row][tile.col]), curses.color_pair(mech.world.MOVE_RADIUS_COLOR_PAIR_NUM))
     def list_tiles_in_range(self, start, radius):
@@ -181,7 +184,7 @@ class World():
     def get_active_teams(self):
         active_teams = []
         for team in self.teams:
-            if not team.has_lost():
+            if len(team.get_active_mechs()) > 0:
                 active_teams.append(team)
         return active_teams
     def get_all_active_mechs(self):
@@ -191,6 +194,12 @@ class World():
                 if mech.is_active():
                     active_mechs.append(mech)
         return active_mechs
+    def get_all_mechs(self):
+        mechs = []
+        for team in self.teams:
+            for mech in team.mechs:
+                mechs.append(mech)
+        return mechs
     def is_valid_turn(self, turn):
         # print(".")
         if turn is None:
@@ -200,12 +209,16 @@ class World():
             self.scr.addstr(3, 50, " "*50)
             self.scr.addstr(3, 50, "invalid command")
             return False
-        if turn.verb == "inf":
-            # print(">")
-            return True
-        if turn.verb == "mov":
-            return mech.can_move_to(turn.get_target_loc())
-        if turn.verb == "atk":
-            return mech.can_attack(turn.get_target_loc())
+        if turn.owner == mech.team and mech.is_active():
+                if turn.verb == "inf":
+                    return True
+                if turn.verb == "mov":
+                    return mech.can_move_to(turn.get_target_loc())
+                if turn.verb == "atk":
+                    return mech.can_attack(turn.get_target_loc())
+        else:
+            self.scr.addstr(3, 50, " "*50)
+            self.scr.addstr(3, 50, "invalid command")
+            return False
 
     verbs = {"mov":Mech.move, "atk":Mech.attack, "spt":Mech.spot, "none":none, "inf":info}

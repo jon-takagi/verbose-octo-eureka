@@ -39,10 +39,20 @@ class Game():
         curses.noecho()
         while not self.world.has_winner():
             for player in self.players:
-                self.world.scr.addstr(1, 50, " "*50)
-                self.world.scr.addstr(1, 50, player.team.name)
-                self.world.curses_display_table()
+                player.team.moved_yet = False
+                player.team.attacked_yet = False
+                player.team.spot_yet = False
+            for player in self.players:
                 while not (player.team.has_moved_yet() and player.team.has_attacked_yet() and player.team.has_spot_yet()):
+                    self.world.scr.addstr(1, 50, " "*50)
+                    ptn_str = player.team.name + " to "
+                    if not player.team.has_moved_yet():
+                        ptn_str += "move"
+                        if not player.team.has_attacked_yet():
+                            ptn_str += ", attack"
+                    elif not player.team.has_attacked_yet():
+                        ptn_str += "attack"
+                    self.world.scr.addstr(1, 50, ptn_str)
                     turn = player.get_turn()
                     if self.world.is_valid_turn(turn):
                         if turn.verb == "mov":
@@ -53,8 +63,8 @@ class Game():
                             player.team.spot_yet = True
                         player.team.do(turn)
                         self.world.scr.refresh()
-                    # print(player.team.moved_yet)
-        return self.world.active_teams()[0].name
+        curses.endwin()
+        # return self.world.active_teams()[0].name
     def add_player(self, p):
         self.players.append(p)
     def load_game(self, file_name):

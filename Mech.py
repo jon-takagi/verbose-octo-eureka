@@ -97,28 +97,33 @@ class Mech(tile_content):
     def can_attack(self, target):
         return target in self.valid_atk_tiles()
     def attack(self, target):
-        # self.world.window.addstr(7,50, self.short_specs() + " is attacking " + target.short_specs())
+        # self.world.window.addstr(6,50, self.short_specs() + " is attacking " + target.short_specs())
         if isinstance(target, location):
             target = self.world.at(target)
         if isinstance(target, Mech):
+            if not target.is_prepped():
+                target.prep()
+            self.world.scr.addstr(7,50, " " *50)
             self.world.scr.addstr(7,50, self.short_specs() + " is attacking " + target.short_specs())
             hits = max(self.scores["atk"] + target.scores["spt"] - target.scores["def"],0)
+            self.world.scr.addstr(8,50, " " * 50)
             self.world.scr.addstr(8,50, "scored " + str(hits) + " hits")
             dmg_to_take = 0
             for hit in range(hits-1):
                 hit_score = self.d6()
                 if target.is_in_cover():
                     if hit_score == 6:
-                        target_mech.take_damage(1)
+                        target.take_damage(1)
                         dmg_to_take += 1
                     else:
                         if hit_score == 5 or hit_score == 4:
-                            self.world.at(target.get_nearby_cover()[random.randint(0,len(target.get_nearby_cover()))]).height -= 1
+                            self.world.at(target.get_nearby_cover()[random.randint(0,len(target.get_nearby_cover()))-1 ]).height -= 1
                 else: #target_mech is not in cover
                     if hit_score == 6 or hit_score == 5:
                         target.take_damage(1)
                         dmg_to_take += 1
             # target.take_damage(dmg_to_take)
+            self.world.scr.addstr(9,50, " "*50)
             self.world.scr.addstr(9,50, "dealt " + str(dmg_to_take) + " dmg")
             self.world.curses_display_table()
             # if hit_score >= roll_above_to_damage:
@@ -158,7 +163,13 @@ class Mech(tile_content):
         else:
             return "#"
     def short_specs(self):
-        return self.team.name + " @ " + str(self.location)
+        return self.team.name + " " + str(self.location)
+    def __repr__(self):
+        specs = ""
+        dice = {"atk":"R", "def":"B", "mov":"G", "spt":"Y"}
+        for gadget in self.gadgets.members:
+            specs += dice[gadget.kind] if gadget.is_active() else dice[gadget.kind].lower()
+        return specs + " @ " + str(self.location)
     def get_specs(self):
         specs = self.team.name + " "
         dice = {"atk":"R", "def":"B", "mov":"G", "spt":"Y"}

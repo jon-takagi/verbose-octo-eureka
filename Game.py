@@ -15,6 +15,7 @@ from Gadget import Gadget
 from Window import Window
 from Player import Player
 from Hot_Seat_Player import Hot_Seat_Player
+
 class Game():
     default_prefs = [curses.COLOR_BLACK, curses.COLOR_GREEN, curses.COLOR_RED, curses.COLOR_CYAN, 9, 10, 11]
     def __init__(self, mapname=None):
@@ -34,7 +35,10 @@ class Game():
         self.world.ATTACK_RANGE_COLOR_PAIR_NUM = prefs[5]
         self.world.COVER_COLOR_PAIR_NUM = prefs[6]
     def start(self):
+        # log = open("test-log.log", "w")
         self.world.curses_display_table()
+        self.world.capture_stations()
+        # self.world.scr.getch()
         self.world.scr.refresh()
         curses.noecho()
         while True:
@@ -43,7 +47,7 @@ class Game():
                 player.team.attacked_yet = False
                 player.team.spot_yet = True
             for player in self.players:
-                while not (player.team.has_moved_yet() and player.team.has_attacked_yet() and player.team.has_spot_yet()):
+                while not (player.team.has_moved_yet() and player.team.has_attacked_yet()):
                     if self.world.has_winner():
                         self.world.scr.addstr(2, 70, " "*30)
                         self.world.scr.addstr(2, 70, "Game Over")
@@ -62,6 +66,9 @@ class Game():
                     self.world.scr.addstr(1, 50, ptn_str)
                     turn = player.get_turn()
                     if self.world.is_valid_turn(turn):
+                        if turn.verb == "pass":
+                            player.team.moved_yet = True
+                            player.team.attacked_yet = True
                         if turn.verb == "mov":
                             player.team.moved_yet = True
                         if turn.verb == "atk":
@@ -70,7 +77,12 @@ class Game():
                             player.team.spot_yet = True
                         player.team.do(turn)
                         self.world.scr.refresh()
+                    else:
+                        self.world.scr.addstr(3, 50, " "*50)
+                        self.world.scr.addstr(3, 50, "command forbidden")
 
+        self.world.scr.addstr(25, 50, "game over")
+        self.world.scr.getch()
     def add_player(self, p):
         self.players.append(p)
         self.world.add_team(p.team)
@@ -84,8 +96,12 @@ class Game():
                     # print("creating new team: " + current_team_name)
                     current_team_obj = Team(self.world, current_team_name)
                     self.add_player(Hot_Seat_Player(self, current_team_obj))
-                    self.world.add_team(current_team_obj)
+                    # self.world.add_team(current_team_obj)
                 elif line[0] == "m":
                     loc = location(line.split("@")[1][:-1])
                     # print("creating " + current_team + " mech: " + line[2:6] + " at " + location)
                     current_team_obj.create_mech(line[2:6], loc)
+                elif line[0] == "s":
+                    loc = location(line.split("@")[1][:-1])
+                    # self.world.scr.addstr("station at " + str(loc))
+                    self.world.create_station_at(loc, current_team_obj)

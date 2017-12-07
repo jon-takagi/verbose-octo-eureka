@@ -34,23 +34,24 @@ class Team():
     def has_lost(self):
         return len(self.get_active_mechs()) == 0
     def do(self, turn):
+        if turn.get_subj_loc() is None:
+            turn.subj = location("n0")
         if turn.get_target_loc() is None:
             turn.target = location("n0")
-        if turn.verb == "pass":
-            self.end_turn()
-            return
         m = self.world.at(turn.get_subj_loc())
-        if not m.prepped:
+        if m is Mech and not m.prepped:
             m.prep()
         self.world.verbs[turn.verb](m, turn.get_target_loc())
     def create_mech(self, equipment_str,loc = location(0,0)):
         if type(loc) == type("a1"):
             loc = location(loc)
         mech = Mech(self.world, Gadgets(equipment_str), loc, self)
-        self.world.settile(mech, loc.row, loc.col)
         self.add_mech(mech)
         return mech
-    def end_turn(self):
+    def end_turn(self, arg1):
+        #team.do passes the subject and targeted
+        #for "pass" both are none
+        #but the # of args must line up
         self.moved_yet = True
         self.attacked_yet = True
         self.spot_yet = True

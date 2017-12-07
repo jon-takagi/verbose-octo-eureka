@@ -1,0 +1,75 @@
+CSCI 121 FALL 2017 PROJECT 4 Game: Beta Test Template
+-------------------------------------------------------------------
+
+Your name: Jon Takagi
+Your login name: jontakagi
+Name of the person whose project you are testing: Canyon Foot
+Login name of the person whose project you are testing: canafoot
+
+-------------------------------------------------------------------
+
+DESCRIPTION
+===========
+Give a brief description of what the game is about/like.
+A couple sentences will suffice.
+
+It's Pacman, but in an asteroids engine.
+
+
+IMPRESSIONS
+===========
+Overall, how did you find the game? Did it seem to work well?
+Was it fun to play?
+
+Game worked well-ish. About as fun as pacman on a laptop will be (except for some small bugs)
+
+USABILITY
+=========
+Below, list any issues where you weren't able to understand what to
+do, what was going on, or how to make something happen. For example,
+if a command is missing from the help menu or doesn’t work as you
+expected, explain that here.
+
+Window does not automatically take focus from the command line. You have
+to click on the window after it opens, and the game is not paused during
+this time
+
+ERRORS
+======
+Below list any errors (meaning actual error messages) that you found
+while testing. You don't have to look at the code at all or find out
+what's causing them, but list all the information you can that will
+help the programmer find it. (For example, list the actual error type
+given and the line/file that the error is pointing to. Explain in as
+much detail as possible what you were doing that caused the error.)
+
+Hitting the edge of the screen causes the game to crash, throwing a
+IndexError - the array isn't wrapping correctly. Using arr[x % len(arr)] will
+prevent this. The error is on line 150.
+
+
+MISBEHAVIORS
+============
+Below, list any misbehaviors you found while testing. By
+"misbehavior" we mean something that didn't cause an error message, but
+nevertheless seemed to do the wrong thing. An item in your inventory
+disappearing for no reason would be a good example. Again, write
+exactly what you were doing that caused the problem.
+
+When turning up and down, the player is occasionally taken across the path and
+not allowed to turn. This is because the code that automatically corrects for
+small differences in the player's alignment has bugs. It is intended to allow
+the player to turn at approximately the correct time.
+
+DIFFICULTY
+==========
+Was the difficulty of the game reasonable? It should be somewhat
+challenging to be fun, but also not hopeless.
+
+The maps are very linear, and not being able to wrap makes it more difficult.
+Creating maps more like the original - with lots of twists and turns, and many
+more intersections will make the game more interesting
+
+SUGGESTIONS
+===========
+Do you have any suggestions for the game's programmer(s)?

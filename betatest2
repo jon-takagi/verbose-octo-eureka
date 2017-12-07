@@ -1,0 +1,68 @@
+CSCI 121 FALL 2017 PROJECT 4 Game: Beta Test Template
+-------------------------------------------------------------------
+
+Your name: Jon Takagi
+Your login name: jontakagi
+Name of the person whose project you are testing: Robert McCaull
+Login name of the person whose project you are testing: romccaull
+
+-------------------------------------------------------------------
+
+DESCRIPTION
+===========
+Give a brief description of what the game is about/like.
+A couple sentences will suffice.
+
+Asteroids but PvP. Very laggy
+
+IMPRESSIONS
+===========
+Overall, how did you find the game? Did it seem to work well?
+Was it fun to play?
+
+Fun to play, but very laggy. Collisions worked as expected,
+missiles did not. Knowing Rob, he called them "miss"-iles and
+designed them to always miss.
+
+USABILITY
+=========
+Below, list any issues where you weren't able to understand what to
+do, what was going on, or how to make something happen. For example,
+if a command is missing from the help menu or doesn’t work as you
+expected, explain that here.
+
+Controls were intuitive, but an energy meter would be useful
+
+ERRORS
+======
+Below list any errors (meaning actual error messages) that you found
+while testing. You don't have to look at the code at all or find out
+what's causing them, but list all the information you can that will
+help the programmer find it. (For example, list the actual error type
+given and the line/file that the error is pointing to. Explain in as
+much detail as possible what you were doing that caused the error.)
+
+N/A
+
+MISBEHAVIORS
+============
+Below, list any misbehaviors you found while testing. By
+"misbehavior" we mean something that didn't cause an error message, but
+nevertheless seemed to do the wrong thing. An item in your inventory
+disappearing for no reason would be a good example. Again, write
+exactly what you were doing that caused the problem.
+
+Missiles never hit anything.
+
+DIFFICULTY
+==========
+Was the difficulty of the game reasonable? It should be somewhat
+challenging to be fun, but also not hopeless.
+
+Yes, very reasonable. Asteroid volume has been tuned correctly to not make
+everyone die of asteroids
+
+SUGGESTIONS
+===========
+Do you have any suggestions for the game's programmer(s)?
+fix the lag

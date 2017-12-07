@@ -1,4 +1,5 @@
 from location import location
+from World import World
 import re
 class Turn():
     def __init__(self, command, owner):
@@ -8,12 +9,11 @@ class Turn():
         self.target = None
         targeted_commands = r"[a-zA-V]\d+ (mov|atk|spt|inf) [a-zA-V]\d+"
         info_command = r"info [a-zA-V]\d{1,2}"
+        unary_commands = r"^[A-Za-z]*$"
         if type(command) == type(b'a'):
             command = command.decode('ascii')
-        if command == "pass":
-            #self.subj = None
-            self.verb = "pass"
-            #self.target = None
+        if command in World.verbs:
+            self.verb = command
         elif re.search(info_command, command) != None:
             #command is of the form
             #info a1

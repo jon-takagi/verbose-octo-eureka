@@ -3,9 +3,11 @@ from Gadget import Gadget
 import Gadgets
 from tile_content import tile_content
 from location import location
+# from Station import Station
 from Cover import Cover
 class Mech(tile_content):
     BASE_MOVEMENT = 1
+        # print("suck it")
     def d6(self):
         return random.randint(1,6)
     def d8(self):
@@ -81,13 +83,13 @@ class Mech(tile_content):
         else:
             return self.world.list_walkable_tiles_in_range(self.location, self.scores["mov"])
     def move(self,target):
-        if True: #replace with check to see if target is within move range
-            self.set_location(target)
+        self.set_location(target)
         self.world.curses_display_table()
     def can_move_to(self, target):
-        return target in self.valid_atk_tiles()
+        return self.world.is_walkable(target) and target in self.valid_atk_tiles()
+
     def set_location(self, target):
-        self.world.table[self.location.row][self.location.col] = tile_content()
+        self.world.table[self.location.row][self.location.col] = tile_content(self.world)
         self.location = target
         self.world.table[target.row][target.col] = self
         self.update_nearby_cover()
@@ -149,7 +151,7 @@ class Mech(tile_content):
         pawn = ["atk", "spt", "def", "mov"] #RYBG
         knight = ["atk", "mov",'mov',"def"] #RGGB
         bishop = ["atk", "atk","mov","mov"] #RRGG
-        rook = ["atk","atk","def","def"] #RRBB
+        rook = ["atk","def","def","mov"] #RBBG
         queen = ["atk","mov","spt","mov"] #RBYB
         king = ["spt","spt","def","def"] #YYBB
         keys = [pawn, knight, bishop, rook, queen, king]

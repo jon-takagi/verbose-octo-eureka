@@ -1,0 +1,567 @@
+current = z18
+current.neighbors: z17, z19, y18, A18, 
+
+current = z17
+current.neighbors: z16, z18, y17, A17, 
+
+current = z19
+current.neighbors: z18, z20, y19, A19, 
+
+current = y18
+current.neighbors: y17, y19, x18, z18, 
+
+current = A18
+current.neighbors: A17, A19, z18, B18, 
+
+current = z16
+current.neighbors: z15, z17, y16, A16, 
+
+current = y17
+current.neighbors: y16, y18, x17, z17, 
+
+current = A17
+current.neighbors: A16, A18, z17, B17, 
+
+current = z20
+current.neighbors: z19, z21, y20, A20, 
+
+current = y19
+current.neighbors: y18, y20, x19, z19, 
+
+current = A19
+current.neighbors: A18, A20, z19, B19, 
+
+current = x18
+current.neighbors: x17, x19, w18, y18, 
+
+current = B18
+current.neighbors: B17, B19, A18, C18, 
+
+current = z15
+current.neighbors: z14, z16, y15, A15, 
+
+current = y16
+current.neighbors: y15, y17, x16, z16, 
+
+current = A16
+current.neighbors: A15, A17, z16, B16, 
+
+current = x17
+current.neighbors: x16, x18, w17, y17, 
+
+current = B17
+current.neighbors: B16, B18, A17, C17, 
+
+current = z21
+current.neighbors: z20, z22, y21, A21, 
+
+current = y20
+current.neighbors: y19, y21, x20, z20, 
+
+current = A20
+current.neighbors: A19, A21, z20, B20, 
+
+current = x19
+current.neighbors: x18, x20, w19, y19, 
+
+current = B19
+current.neighbors: B18, B20, A19, C19, 
+
+current = w18
+current.neighbors: w17, w19, v18, x18, 
+
+current = C18
+current.neighbors: C17, C19, B18, D18, 
+
+current = z14
+current.neighbors: z13, z15, y14, A14, 
+
+current = y15
+current.neighbors: y14, y16, x15, z15, 
+
+current = A15
+current.neighbors: A14, A16, z15, B15, 
+
+current = x16
+current.neighbors: x15, x17, w16, y16, 
+
+current = B16
+current.neighbors: B15, B17, A16, C16, 
+
+current = w17
+current.neighbors: w16, w18, v17, x17, 
+
+current = C17
+current.neighbors: C16, C18, B17, D17, 
+
+current = z22
+current.neighbors: z21, z23, y22, A22, 
+
+current = y21
+current.neighbors: y20, y22, x21, z21, 
+
+current = A21
+current.neighbors: A20, A22, z21, B21, 
+
+current = x20
+current.neighbors: x19, x21, w20, y20, 
+
+current = B20
+current.neighbors: B19, B21, A20, C20, 
+
+current = w19
+current.neighbors: w18, w20, v19, x19, 
+
+current = C19
+current.neighbors: C18, C20, B19, D19, 
+
+current = v18
+current.neighbors: v17, v19, u18, w18, 
+
+current = D18
+current.neighbors: D17, D19, C18, E18, 
+
+current = z13
+current.neighbors: z12, z14, y13, A13, 
+
+current = y14
+current.neighbors: y13, y15, x14, z14, 
+
+current = A14
+current.neighbors: A13, A15, z14, B14, 
+
+current = x15
+current.neighbors: x14, x16, w15, y15, 
+
+current = B15
+current.neighbors: B14, B16, A15, C15, 
+
+current = w16
+current.neighbors: w15, w17, v16, x16, 
+
+current = C16
+current.neighbors: C15, C17, B16, D16, 
+
+current = v17
+current.neighbors: v16, v18, u17, w17, 
+
+current = D17
+current.neighbors: D16, D18, C17, E17, 
+
+current = z23
+current.neighbors: z22, z24, y23, A23, 
+
+current = y22
+current.neighbors: y21, y23, x22, z22, 
+
+current = A22
+current.neighbors: A21, A23, z22, B22, 
+
+current = x21
+current.neighbors: x20, x22, w21, y21, 
+
+current = B21
+current.neighbors: B20, B22, A21, C21, 
+
+current = w20
+current.neighbors: w19, w21, v20, x20, 
+
+current = C20
+current.neighbors: C19, C21, B20, D20, 
+
+current = v19
+current.neighbors: v18, v20, u19, w19, 
+
+current = D19
+current.neighbors: D18, D20, C19, E19, 
+
+current = u18
+current.neighbors: u17, u19, t18, v18, 
+
+current = E18
+current.neighbors: E17, E19, D18, F18, 
+
+current = z12
+current.neighbors: z11, z13, y12, A12, 
+
+current = y13
+current.neighbors: y12, y14, x13, z13, 
+
+current = A13
+current.neighbors: A12, A14, z13, B13, 
+
+current = x14
+current.neighbors: x13, x15, w14, y14, 
+
+current = B14
+current.neighbors: B13, B15, A14, C14, 
+
+current = w15
+current.neighbors: w14, w16, v15, x15, 
+
+current = C15
+current.neighbors: C14, C16, B15, D15, 
+
+current = v16
+current.neighbors: v15, v17, u16, w16, 
+
+current = D16
+current.neighbors: D15, D17, C16, E16, 
+
+current = u17
+current.neighbors: u16, u18, t17, v17, 
+
+current = E17
+current.neighbors: E16, E18, D17, F17, 
+
+current = z24
+current.neighbors: z23, z25, y24, A24, 
+
+current = y23
+current.neighbors: y22, y24, x23, z23, 
+
+current = A23
+current.neighbors: A22, A24, z23, B23, 
+
+current = x22
+current.neighbors: x21, x23, w22, y22, 
+
+current = B22
+current.neighbors: B21, B23, A22, C22, 
+
+current = w21
+current.neighbors: w20, w22, v21, x21, 
+
+current = C21
+current.neighbors: C20, C22, B21, D21, 
+
+current = v20
+current.neighbors: v19, v21, u20, w20, 
+
+current = D20
+current.neighbors: D19, D21, C20, E20, 
+
+current = u19
+current.neighbors: u18, u20, t19, v19, 
+
+current = E19
+current.neighbors: E18, E20, D19, F19, 
+
+current = t18
+current.neighbors: t17, t19, s18, u18, 
+
+current = F18
+current.neighbors: F17, F19, E18, G18, 
+
+current = z11
+current.neighbors: z10, z12, y11, A11, 
+
+current = y12
+current.neighbors: y11, y13, x12, z12, 
+
+current = A12
+current.neighbors: A11, A13, z12, B12, 
+
+current = x13
+current.neighbors: x12, x14, w13, y13, 
+
+current = B13
+current.neighbors: B12, B14, A13, C13, 
+
+current = w14
+current.neighbors: w13, w15, v14, x14, 
+
+current = C14
+current.neighbors: C13, C15, B14, D14, 
+
+current = v15
+current.neighbors: v14, v16, u15, w15, 
+
+current = D15
+current.neighbors: D14, D16, C15, E15, 
+
+current = u16
+current.neighbors: u15, u17, t16, v16, 
+
+current = E16
+current.neighbors: E15, E17, D16, F16, 
+
+current = t17
+current.neighbors: t16, t18, s17, u17, 
+
+current = F17
+current.neighbors: F16, F18, E17, G17, 
+
+current = z25
+current.neighbors: z24, z26, y25, A25, 
+
+current = y24
+current.neighbors: y23, y25, x24, z24, 
+
+current = A24
+current.neighbors: A23, A25, z24, B24, 
+
+current = x23
+current.neighbors: x22, x24, w23, y23, 
+
+current = B23
+current.neighbors: B22, B24, A23, C23, 
+
+current = w22
+current.neighbors: w21, w23, v22, x22, 
+
+current = C22
+current.neighbors: C21, C23, B22, D22, 
+
+current = v21
+current.neighbors: v20, v22, u21, w21, 
+
+current = D21
+current.neighbors: D20, D22, C21, E21, 
+
+current = u20
+current.neighbors: u19, u21, t20, v20, 
+
+current = E20
+current.neighbors: E19, E21, D20, F20, 
+
+current = t19
+current.neighbors: t18, t20, s19, u19, 
+
+current = F19
+current.neighbors: F18, F20, E19, G19, 
+
+current = s18
+current.neighbors: s17, s19, r18, t18, 
+
+current = G18
+current.neighbors: G17, G19, F18, H18, 
+
+current = z10
+
+
+current = y11
+
+
+current = A11
+
+
+current = x12
+current.neighbors: x11, x13, w12, y12, 
+
+current = B12
+current.neighbors: B11, B13, A12, C12, 
+
+current = w13
+current.neighbors: w12, w14, v13, x13, 
+
+current = C13
+current.neighbors: C12, C14, B13, D13, 
+
+current = v14
+current.neighbors: v13, v15, u14, w14, 
+
+current = D14
+current.neighbors: D13, D15, C14, E14, 
+
+current = u15
+current.neighbors: u14, u16, t15, v15, 
+
+current = E15
+current.neighbors: E14, E16, D15, F15, 
+
+current = t16
+current.neighbors: t15, t17, s16, u16, 
+
+current = F16
+current.neighbors: F15, F17, E16, G16, 
+
+current = s17
+
+
+current = G17
+
+
+current = z26
+
+
+current = y25
+
+
+current = A25
+
+
+current = x24
+current.neighbors: x23, x25, w24, y24, 
+
+current = B24
+current.neighbors: B23, B25, A24, C24, 
+
+current = w23
+current.neighbors: w22, w24, v23, x23, 
+
+current = C23
+current.neighbors: C22, C24, B23, D23, 
+
+current = v22
+current.neighbors: v21, v23, u22, w22, 
+
+current = D22
+current.neighbors: D21, D23, C22, E22, 
+
+current = u21
+current.neighbors: u20, u22, t21, v21, 
+
+current = E21
+current.neighbors: E20, E22, D21, F21, 
+
+current = t20
+current.neighbors: t19, t21, s20, u20, 
+
+current = F20
+current.neighbors: F19, F21, E20, G20, 
+
+current = s19
+
+
+current = G19
+
+
+current = r18
+
+
+current = H18
+
+
+current = x11
+
+
+current = w12
+current.neighbors: w11, w13, v12, x12, 
+
+current = B11
+
+
+current = C12
+current.neighbors: C11, C13, B12, D12, 
+
+current = v13
+current.neighbors: v12, v14, u13, w13, 
+
+current = D13
+current.neighbors: D12, D14, C13, E13, 
+
+current = u14
+current.neighbors: u13, u15, t14, v14, 
+
+current = E14
+current.neighbors: E13, E15, D14, F14, 
+
+current = t15
+current.neighbors: t14, t16, s15, u15, 
+
+current = F15
+current.neighbors: F14, F16, E15, G15, 
+
+current = s16
+
+
+current = G16
+
+
+current = x25
+
+
+current = w24
+current.neighbors: w23, w25, v24, x24, 
+
+current = B25
+
+
+current = C24
+current.neighbors: C23, C25, B24, D24, 
+
+current = v23
+current.neighbors: v22, v24, u23, w23, 
+
+current = D23
+current.neighbors: D22, D24, C23, E23, 
+
+current = u22
+current.neighbors: u21, u23, t22, v22, 
+
+current = E22
+current.neighbors: E21, E23, D22, F22, 
+
+current = t21
+current.neighbors: t20, t22, s21, u21, 
+
+current = F21
+current.neighbors: F20, F22, E21, G21, 
+
+current = s20
+
+
+current = G20
+
+
+current = w11
+
+
+current = v12
+
+
+current = C11
+
+
+current = D12
+
+
+current = u13
+
+
+current = E13
+
+
+current = t14
+
+
+current = F14
+
+
+current = s15
+
+
+current = G15
+
+
+current = w25
+
+
+current = v24
+
+
+current = C25
+
+
+current = D24
+
+
+current = u23
+
+
+current = E23
+
+
+current = t22
+
+
+current = F22
+
+
+current = s21
+
+
+current = G21
+
+

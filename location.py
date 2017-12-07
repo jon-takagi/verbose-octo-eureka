@@ -25,11 +25,11 @@ class location():
         neighbors = []
         if self.row - 1 > 0:
             neighbors.append(location(self.row-1,self.col))
-        if self.row + 1 < Dimesions.TABLE_WIDTH:
+        if self.row + 1 < Dimesions.TABLE_HEIGHT:
             neighbors.append(location(self.row + 1, self.col))
         if self.col - 1 > 0:
             neighbors.append(location(self.row, self.col - 1))
-        if self.col + 1 < Dimesions.TABLE_HEIGHT:
+        if self.col + 1 < Dimesions.TABLE_WIDTH :
             neighbors.append(location(self.row, self.col + 1))
         return neighbors
     def __eq__(self, other):

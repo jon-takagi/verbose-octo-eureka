@@ -12,9 +12,8 @@ from location_helpers import str_to_coords
 from location_helpers import coords_to_str
 from location_helpers import distance_between
 from Station import Station
-# from td import TABLE_HEIGHT
 class World():
-    def __init__(self,mapName, window=None):
+    def __init__(self,mapName="map1long.png", window=None):
         self.stations = []
         self.table = self.gen_table(mapName)
         self.teams = []
@@ -24,8 +23,12 @@ class World():
         curses.start_color()
         curses.init_pair(1, curses.COLOR_BLACK, 255)
         self.scr.bkgd(" ", curses.color_pair(0))
-        self.down_at = None
-        self.selected_mech = None
+    def __getstate__(self):
+        #returns state values for pickling
+        return (self.stations, self.table, self.teams)
+    def __setstate__(self, state):
+        #properly initializes the object after pickling
+        self.stations, self.table, self.teams = state
     def gen_table(self, mapName):
         table = [[tile_content(self) for i in range(Dimesions.TABLE_WIDTH)] for j in range(Dimesions.TABLE_HEIGHT)]
         img = Image.open(mapName)

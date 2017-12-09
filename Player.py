@@ -12,3 +12,5 @@ class Player():
         return self.moved
     def has_attacked(self):
         return self.attacked
+    def send_world_state(self, state):
+        pass

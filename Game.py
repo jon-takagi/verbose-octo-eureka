@@ -15,7 +15,7 @@ from Gadget import Gadget
 from Window import Window
 from Player import Player
 from Hot_Seat_Player import Hot_Seat_Player
-
+import pickle
 class Game():
     default_prefs = [curses.COLOR_BLACK, curses.COLOR_GREEN, curses.COLOR_RED, curses.COLOR_CYAN, 9, 10, 11]
     def __init__(self, mapname=None):
@@ -47,6 +47,8 @@ class Game():
                 player.team.attacked_yet = False
                 player.team.spot_yet = True
             for player in self.players:
+                self.update_current_player(player)
+                player.send_world_state(pickle.dumps(self.world))
                 while not (player.team.has_moved_yet() and player.team.has_attacked_yet()):
                     if self.world.has_winner():
                         self.world.scr.addstr(2, 70, " "*30)
@@ -55,15 +57,6 @@ class Game():
                         self.world.scr.addstr(3, 70, "Winner is " + str(self.world.get_winner().name))
                         self.world.scr.refresh()
                         break
-                    self.world.scr.addstr(1, 50, " "*50)
-                    ptn_str = player.team.name + " to "
-                    if not player.team.has_moved_yet():
-                        ptn_str += "move"
-                        if not player.team.has_attacked_yet():
-                            ptn_str += ", attack"
-                    elif not player.team.has_attacked_yet():
-                        ptn_str += "attack"
-                    self.world.scr.addstr(1, 50, ptn_str)
                     turn = player.get_turn()
                     if self.world.is_valid_turn(turn):
                         if turn.verb == "pass":
@@ -83,6 +76,16 @@ class Game():
 
         self.world.scr.addstr(25, 50, "game over")
         self.world.scr.getch()
+    def update_current_player(self, player):
+        self.world.scr.addstr(1, 50, " "*50)
+        ptn_str = player.team.name + " to "
+        if not player.team.has_moved_yet():
+            ptn_str += "move"
+            if not player.team.has_attacked_yet():
+                ptn_str += ", attack"
+        elif not player.team.has_attacked_yet():
+            ptn_str += "attack"
+        self.world.scr.addstr(1, 50, ptn_str)
     def add_player(self, p):
         self.players.append(p)
         self.world.add_team(p.team)

@@ -338,13 +338,13 @@ current = G18
 current.neighbors: G17, G19, F18, H18, 
 
 current = z10
-
+current.neighbors: z9, z11, y10, A10, 
 
 current = y11
-
+current.neighbors: y10, y12, x11, z11, 
 
 current = A11
-
+current.neighbors: A10, A12, z11, B11, 
 
 current = x12
 current.neighbors: x11, x13, w12, y12, 
@@ -377,19 +377,19 @@ current = F16
 current.neighbors: F15, F17, E16, G16, 
 
 current = s17
-
+current.neighbors: s16, s18, r17, t17, 
 
 current = G17
-
+current.neighbors: G16, G18, F17, H17, 
 
 current = z26
-
+current.neighbors: z25, z27, y26, A26, 
 
 current = y25
-
+current.neighbors: y24, y26, x25, z25, 
 
 current = A25
-
+current.neighbors: A24, A26, z25, B25, 
 
 current = x24
 current.neighbors: x23, x25, w24, y24, 
@@ -422,25 +422,34 @@ current = F20
 current.neighbors: F19, F21, E20, G20, 
 
 current = s19
-
+current.neighbors: s18, s20, r19, t19, 
 
 current = G19
-
+current.neighbors: G18, G20, F19, H19, 
 
 current = r18
-
+current.neighbors: r17, r19, q18, s18, 
 
 current = H18
+current.neighbors: H17, H19, G18, I18, 
+
+current = z9
+
+
+current = y10
+
+
+current = A10
 
 
 current = x11
+current.neighbors: x10, x12, w11, y11, 
 
+current = B11
+current.neighbors: B10, B12, A11, C11, 
 
 current = w12
 current.neighbors: w11, w13, v12, x12, 
-
-current = B11
-
 
 current = C12
 current.neighbors: C11, C13, B12, D12, 
@@ -464,19 +473,34 @@ current = F15
 current.neighbors: F14, F16, E15, G15, 
 
 current = s16
-
+current.neighbors: s15, s17, r16, t16, 
 
 current = G16
+current.neighbors: G15, G17, F16, H16, 
+
+current = r17
+
+
+current = H17
+
+
+current = z27
+
+
+current = y26
+
+
+current = A26
 
 
 current = x25
+current.neighbors: x24, x26, w25, y25, 
 
+current = B25
+current.neighbors: B24, B26, A25, C25, 
 
 current = w24
 current.neighbors: w23, w25, v24, x24, 
-
-current = B25
-
 
 current = C24
 current.neighbors: C23, C25, B24, D24, 
@@ -500,68 +524,212 @@ current = F21
 current.neighbors: F20, F22, E21, G21, 
 
 current = s20
-
+current.neighbors: s19, s21, r20, t20, 
 
 current = G20
+current.neighbors: G19, G21, F20, H20, 
+
+current = r19
+
+
+current = H19
+
+
+current = q18
+
+
+current = I18
+
+
+current = x10
 
 
 current = w11
+current.neighbors: w10, w12, v11, x11, 
 
-
-current = v12
+current = B10
 
 
 current = C11
+current.neighbors: C10, C12, B11, D11, 
 
+current = v12
+current.neighbors: v11, v13, u12, w12, 
 
 current = D12
-
+current.neighbors: D11, D13, C12, E12, 
 
 current = u13
-
+current.neighbors: u12, u14, t13, v13, 
 
 current = E13
-
+current.neighbors: E12, E14, D13, F13, 
 
 current = t14
-
+current.neighbors: t13, t15, s14, u14, 
 
 current = F14
-
+current.neighbors: F13, F15, E14, G14, 
 
 current = s15
-
+current.neighbors: s14, s16, r15, t15, 
 
 current = G15
+current.neighbors: G14, G16, F15, H15, 
+
+current = r16
+
+
+current = H16
+
+
+current = x26
 
 
 current = w25
+current.neighbors: w24, w26, v25, x25, 
 
-
-current = v24
+current = B26
 
 
 current = C25
+current.neighbors: C24, C26, B25, D25, 
 
+current = v24
+current.neighbors: v23, v25, u24, w24, 
 
 current = D24
-
+current.neighbors: D23, D25, C24, E24, 
 
 current = u23
-
+current.neighbors: u22, u24, t23, v23, 
 
 current = E23
-
+current.neighbors: E22, E24, D23, F23, 
 
 current = t22
-
+current.neighbors: t21, t23, s22, u22, 
 
 current = F22
-
+current.neighbors: F21, F23, E22, G22, 
 
 current = s21
-
+current.neighbors: s20, s22, r21, t21, 
 
 current = G21
+current.neighbors: G20, G22, F21, H21, 
+
+current = r20
+
+
+current = H20
+
+
+current = w10
+
+
+current = v11
+
+
+current = C10
+
+
+current = D11
+
+
+current = u12
+current.neighbors: u11, u13, t12, v12, 
+
+current = E12
+current.neighbors: E11, E13, D12, F12, 
+
+current = t13
+current.neighbors: t12, t14, s13, u13, 
+
+current = F13
+current.neighbors: F12, F14, E13, G13, 
+
+current = s14
+
+
+current = G14
+
+
+current = r15
+
+
+current = H15
+
+
+current = w26
+
+
+current = v25
+
+
+current = C26
+
+
+current = D25
+
+
+current = u24
+current.neighbors: u23, u25, t24, v24, 
+
+current = E24
+current.neighbors: E23, E25, D24, F24, 
+
+current = t23
+current.neighbors: t22, t24, s23, u23, 
+
+current = F23
+current.neighbors: F22, F24, E23, G23, 
+
+current = s22
+
+
+current = G22
+
+
+current = r21
+
+
+current = H21
+
+
+current = u11
+
+
+current = t12
+
+
+current = E11
+
+
+current = F12
+
+
+current = s13
+
+
+current = G13
+
+
+current = u25
+
+
+current = t24
+
+
+current = E25
+
+
+current = F24
+
+
+current = s23
+
+
+current = G23
 
 

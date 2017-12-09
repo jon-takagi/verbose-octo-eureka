@@ -13,22 +13,24 @@ from location_helpers import coords_to_str
 from location_helpers import distance_between
 from Station import Station
 class World():
-    def __init__(self,mapName="map1long.png", window=None):
+    def __init__(self,mapName="empty.png", window=None):
         self.stations = []
         self.table = self.gen_table(mapName)
         self.teams = []
-        self.scr = curses.initscr()
-        self.scr.keypad(1)
-        curses.mousemask(curses.ALL_MOUSE_EVENTS)
-        curses.start_color()
-        curses.init_pair(1, curses.COLOR_BLACK, 255)
-        self.scr.bkgd(" ", curses.color_pair(0))
+        self.load_scr()
     def __getstate__(self):
         #returns state values for pickling
         return (self.stations, self.table, self.teams)
     def __setstate__(self, state):
         #properly initializes the object after pickling
         self.stations, self.table, self.teams = state
+    def load_scr(self):
+        self.scr = curses.initscr()
+        self.scr.keypad(1)
+        curses.mousemask(curses.ALL_MOUSE_EVENTS)
+        curses.start_color()
+        curses.init_pair(1, curses.COLOR_BLACK, 255)
+        self.scr.bkgd(" ", curses.color_pair(0))
     def gen_table(self, mapName):
         table = [[tile_content(self) for i in range(Dimesions.TABLE_WIDTH)] for j in range(Dimesions.TABLE_HEIGHT)]
         img = Image.open(mapName)
@@ -76,9 +78,10 @@ class World():
         for tile in mech.valid_move_tiles():
             mech.world.scr.addstr(tile.row, tile.col, str(mech.world.table[tile.row][tile.col]), curses.color_pair(mech.world.MOVE_RADIUS_COLOR_PAIR_NUM))
     def show_attack_range(mech, loc):
-        print("nuts")
-        # for tile in mech.valid_atk_tiles():
-        #     mech.world.scr.addstr(tile.row, tile.col, str(mech.world.table[tile.row][tile.col]), curses.color_pair(mech.world.ATTACK_RANGE_COLOR_PAIR_NUM))
+        # print("nuts")
+        # this method works similarly to show move radius. The only problem is getting it to actually work when a user types in the proper command. The verb is already in World.verbs, so the only remaining step is to allow Turn to recognize it as a valid input (and maybe Hotseat player), and then allow World.is_valid_turn to correctly return True if turn.verb == "atkrng"
+        for tile in mech.valid_atk_tiles():
+            mech.world.scr.addstr(tile.row, tile.col, str(mech.world.table[tile.row][tile.col]), curses.color_pair(mech.world.ATTACK_RANGE_COLOR_PAIR_NUM))
     def list_commands(self, arg1):
         # self.world.scr.addstr(2, 50, " "*50)
         self.world.scr.addstr(3, 50, " "*50)
@@ -90,28 +93,19 @@ class World():
         self.world.scr.addstr(6, 50, " "*50)
         self.world.scr.addstr(6, 50, "'pass' ends your turn & moves to the next player")
     def list_tiles_in_range(self, start, radius):
-        print(".")
-        log = open("log.txt", "w")
         frontier = Queue()
         frontier.put(start)
         visited = {}
         visited[start] = True
         while not frontier.empty() :
             current = frontier.get()
-            log.write("current = " + str(current) + "\n")
             if distance_between(start, current) <= radius:
                 cn = current.neighbors()
-                if len(cn) > 4:
-                    log.write("**short**")
-                log.write("current.neighbors: ")
-                for n in current.neighbors():
-                    log.write(str(n) + ", ")
+                for n in current.neighbors(): #check to see if n is walkable here to fix the highlighting issue
                     if n not in visited:
                         frontier.put(n)
                         visited[n] = True
-            log.write("\n\n")
         visited.pop(start)
-        log.close()
         return visited
     def list_walkable_tiles_in_range(self, start, radius):
         frontier = Queue()
@@ -206,6 +200,12 @@ class World():
                 pass
             else:
                 self.scr.addstr(r,c,str(r))
+        self.list_mechs()
+    def list_mechs(self):
+        mechs = self.get_all_mechs()
+        for i in range(len(mechs)):
+            self.scr.addstr(i + 11, 50, " "*50)
+            self.scr.addstr(i + 11, 50, mechs[i].get_specs())
 
     def add_team(self, team):
         team.set_num(len(self.teams)+1)
@@ -235,7 +235,6 @@ class World():
                 mechs.append(mech)
         return mechs
     def is_valid_turn(self, turn):
-        # print(".")
         if turn is None:
             return False
         if turn.verb == "pass":

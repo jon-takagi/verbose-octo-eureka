@@ -14,16 +14,24 @@ import curses
 from Gadget import Gadget
 from Window import Window
 from Player import Player
+from Server_Facing_Networked_Player import Server_Facing_Networked_Player
 from Hot_Seat_Player import Hot_Seat_Player
 import pickle
+import os
 class Game():
     default_prefs = [curses.COLOR_BLACK, curses.COLOR_GREEN, curses.COLOR_RED, curses.COLOR_CYAN, 9, 10, 11]
-    def __init__(self, mapname=None):
-        if mapname == None:
-            mapname = "map1long.png"
-        self.players = []
-        self.world = World(mapname)
+    def __init__(self, map_name=None):
+        # self.players = []
+        self.world = World()
         self.set_color_prefs(Game.default_prefs)
+        # if map_name == None:
+        #     self.map_name = "map1long.png"
+        # else:
+        if map_name.split(".")[1] == "mfz":
+            self.map_name = ""
+            self.load_game(map_name)
+        else:
+            self.map_name = map_name
     def set_color_prefs(self, prefs):
         #prefs is an array
 # background, move radius color, attack radius color, cover background color, MOVE_RADIUS_COLOR_PAIR_NUM, ATTACK_RANGE_COLOR_PAIR_NUM, COVER_COLOR_PAIR_NUM
@@ -35,12 +43,11 @@ class Game():
         self.world.ATTACK_RANGE_COLOR_PAIR_NUM = prefs[5]
         self.world.COVER_COLOR_PAIR_NUM = prefs[6]
     def start(self):
-        # log = open("test-log.log", "w")
         self.world.curses_display_table()
         self.world.capture_stations()
-        # self.world.scr.getch()
         self.world.scr.refresh()
         curses.noecho()
+        print(len(self.players))
         while True:
             for player in self.players:
                 player.team.moved_yet = False
@@ -66,9 +73,11 @@ class Game():
                             player.team.moved_yet = True
                         if turn.verb == "atk":
                             player.team.attacked_yet = True
-                        if turn.verb == "spt":
-                            player.team.spot_yet = True
+                            os.system("afplay gunshot.wav")
+                        self.update_current_player(player)
                         player.team.do(turn)
+                        for p in self.players:
+                            p.send_world_state(pickle.dumps(self.world))
                         self.world.scr.refresh()
                     else:
                         self.world.scr.addstr(3, 50, " "*50)
@@ -76,7 +85,9 @@ class Game():
 
         self.world.scr.addstr(25, 50, "game over")
         self.world.scr.getch()
+        curses.endwin()
     def update_current_player(self, player):
+        # print(player.team.name)
         self.world.scr.addstr(1, 50, " "*50)
         ptn_str = player.team.name + " to "
         if not player.team.has_moved_yet():
@@ -86,25 +97,37 @@ class Game():
         elif not player.team.has_attacked_yet():
             ptn_str += "attack"
         self.world.scr.addstr(1, 50, ptn_str)
+        self.world.scr.refresh()
     def add_player(self, p):
+        # print(">adding player")
         self.players.append(p)
         self.world.add_team(p.team)
+    def recieve_world_state(self, world):
+        self.world = world
     def load_game(self, file_name):
+        self.players = []
         current_team_name = None
         current_team_obj = None
         with open(file_name, "r") as f:
+            first_line = f.readline()
+            if first_line[0] == "M":
+                self.map_name = first_line.split(":")[1].rstrip()
+
+                self.world = World(self.map_name)
+                print("creating map from " + self.map_name)
+                self.set_color_prefs(Game.default_prefs)
             for line in f:
+                # print(line[0])
                 if line[0] == "t":
-                    current_team_name = line[2:-1]
-                    # print("creating new team: " + current_team_name)
+                    current_team_name = line.split("-")[1].split("@")[0]
+                    host, port = line.split("-")[1].split("@")[1].split(":")
+                    port = int(port)
+                    print("creating new team: " + current_team_name)
                     current_team_obj = Team(self.world, current_team_name)
-                    self.add_player(Hot_Seat_Player(self, current_team_obj))
-                    # self.world.add_team(current_team_obj)
+                    self.add_player(Server_Facing_Networked_Player(self, current_team_obj, host, port))
                 elif line[0] == "m":
                     loc = location(line.split("@")[1][:-1])
-                    # print("creating " + current_team + " mech: " + line[2:6] + " at " + location)
                     current_team_obj.create_mech(line[2:6], loc)
                 elif line[0] == "s":
                     loc = location(line.split("@")[1][:-1])
-                    # self.world.scr.addstr("station at " + str(loc))
                     self.world.create_station_at(loc, current_team_obj)

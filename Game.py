@@ -33,6 +33,7 @@ class Game():
             self.load_game(map_name)
         else:
             self.map_name = map_name
+            self.world = World(map_name)
     def set_color_prefs(self, prefs):
         #prefs is an array
 # background, move radius color, attack radius color, cover background color, MOVE_RADIUS_COLOR_PAIR_NUM, ATTACK_RANGE_COLOR_PAIR_NUM, COVER_COLOR_PAIR_NUM

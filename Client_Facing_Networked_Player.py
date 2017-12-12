@@ -68,6 +68,7 @@ class Client_Facing_Networked_Player(Player):
                         # return self.get_turn()
                     elif message == "wait":
                         # print("< waiting")
+                        pass
                     elif message == "quit":
                         self.cs.close()
                     else:

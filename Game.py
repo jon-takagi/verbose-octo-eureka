@@ -23,6 +23,7 @@ class Game():
     def __init__(self, map_name=None):
         # self.players = []
         self.world = World()
+        self.players = []
         self.set_color_prefs(Game.default_prefs)
         # if map_name == None:
         #     self.map_name = "map1long.png"

@@ -42,23 +42,23 @@ class Client_Facing_Networked_Player(Player):
                     message = self.cs.recv(self.expected_world_size)
                     pickle_dump += message
                     self.expected_world_size -= len(message)
-                    print("< awaiting " + str(self.expected_world_size))
-                print("< unpickling world of size " + str(len(pickle_dump)))
+                #     print("< awaiting " + str(self.expected_world_size))
+                # print("< unpickling world of size " + str(len(pickle_dump)))
                 # with open("pickle_out.pickle", "wb") as pickle_out:
                 #     pickle_out.write(pickle_dump)
                 self.world = pickle.loads(pickle_dump)
                 self.world.load_scr()
                 self.world.scr = curses.initscr()
-                print("unpickled")
+                # print("unpickled")
                 self.cs.send("done".encode('ascii'))
-                print("replied")
+                # print("replied")
                 self.ready_to_get_state = False
             else:
                 message = self.cs.recv(1024)
                 message = message.decode()
                 # print(message)
                 if message != "":
-                    print("> " + message)
+                    # print("> " + message)
                     if message == "send turn":
                         cmd = self.get_turn
                         self.world.curses_display_table()
@@ -67,7 +67,7 @@ class Client_Facing_Networked_Player(Player):
                         self.cs.send(cmd.encode('ascii'))
                         # return self.get_turn()
                     elif message == "wait":
-                        print("< waiting")
+                        # print("< waiting")
                     elif message == "quit":
                         self.cs.close()
                     else:
@@ -76,7 +76,7 @@ class Client_Facing_Networked_Player(Player):
                             self.expected_world_size = int(splits[1])
                             self.cs.send("ready".encode("ascii"))
                             self.ready_to_get_state = True
-                            print("< expecting world size: " + str(self.expected_world_size))
+                            # print("< expecting world size: " + str(self.expected_world_size))
 if len(sys.argv) == 1:
     c = Client_Facing_Networked_Player()
 elif len(sys.argv) == 2:
